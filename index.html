@@ -62,9 +62,12 @@
             County. Our members train hard, respond day and night, and put community first.
           </p>
 
-          <div class="hero-actions">
-            <a href="#contact" class="btn btn-primary">Non-emergency contact</a>
-            <a href="#volunteer" class="btn btn-outline">Become a volunteer</a>
+          <!-- Buttons row -->
+          <div class="hero-actions-row">
+            <div class="hero-actions">
+              <a href="#contact" class="btn btn-primary">Non-emergency contact</a>
+              <a href="#volunteer" class="btn btn-outline">Become a volunteer</a>
+            </div>
           </div>
 
           <div class="hero-meta">
@@ -87,6 +90,7 @@
           <div class="hero-image-photo">
             <span class="hero-badge">Engine &amp; Brush · SSVFD</span>
           </div>
+
           <div class="hero-stats">
             <div>
               <span class="stat-number">50+</span>
@@ -100,6 +104,59 @@
               <span class="stat-number">24/7</span>
               <span class="stat-label">Emergency response</span>
             </div>
+          </div>
+
+            <div class="hero-right-weather">
+            <!-- Weather widget -->
+            <aside class="weather-widget" aria-label="5 day forecast for Front Royal">
+              <div class="weather-header">
+                <span class="weather-location">Front Royal, VA</span>
+                <span class="weather-updated" id="weather-updated"></span>
+              </div>
+              <div class="weather-days" id="weather-days">
+                <!-- JS will inject day cards here -->
+              </div>
+            </aside>
+
+            <!-- Local news widget -->
+            <section class="news-widget" aria-label="Local news headlines">
+              <div class="news-widget-header">
+                <span>Local News</span>
+                <span class="news-source">Royal Examiner</span>
+              </div>
+
+              <!-- Auto-updating headlines from Royal Examiner (your existing behavior) -->
+              <ul id="local-news-list" class="news-widget-list">
+                <li class="loading">Loading latest headlines…</li>
+              </ul>
+
+              <!-- Extra local news sources -->
+              <div class="news-widget-links">
+                <span class="links-label">More local sources</span>
+                <ul class="news-link-list">
+                  <li>
+                    <a href="https://www.warrencountysheriff.org/306/Warren-County-Sheriffs-Office" target="_blank">
+                      Warren County Sheriff's Office
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.facebook.com/CountyofWarrenVA/" target="_blank">
+                      Warren County Report
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.nvdaily.com/news/warren/" target="_blank">
+                      The Northern Virginia Daily — Warren County
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.dnronline.com/the_warren_sentinel/" target="_blank">
+                      The Warren Sentinel
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </section>
           </div>
         </div>
       </section>
@@ -249,22 +306,57 @@
       <!-- Photo Gallery -->
       <section class="block" id="gallery">
         <div class="block-header">
-          <h3>Around the station</h3>
+          <h3>Fireman's Parade 2025</h3>
           <span class="tag">Apparatus · Training · Community</span>
         </div>
 
         <div class="grid grid-3 gallery-grid">
+          <!-- Row 1 -->
           <figure class="gallery-card">
-            <img src="assets/images/image000005.jpeg" alt="SSVFD Engine" />
-            <figcaption>Main Engine – ready to roll</figcaption>
+            <img src="assets/images/image000005.jpeg" alt="SSVFD engine staged for the parade" />
+            <figcaption>Main engine – ready to roll</figcaption>
           </figure>
+
           <figure class="gallery-card">
             <img src="assets/images/image000006.jpeg" alt="Brush truck used for wildland and off-road incidents" />
             <figcaption>Brush truck for off-road calls</figcaption>
           </figure>
+
           <figure class="gallery-card">
-            <img src="assets/images/image000007.jpeg" alt="Firefighters training at night" />
-            <figcaption>Members training after dark</figcaption>
+            <img src="assets/images/image000007.jpeg" alt="Members walking alongside the engine during the parade" />
+            <figcaption>Members rolling in the parade</figcaption>
+          </figure>
+
+          <!-- Row 2 -->
+          <figure class="gallery-card">
+            <img src="assets/images/image000001.jpeg" alt="Firefighters waving to families along the parade route" />
+            <figcaption>Waving to families along the route</figcaption>
+          </figure>
+
+          <figure class="gallery-card">
+            <img src="assets/images/image000002.jpeg" alt="Close-up of SSVFD company 5 badge on the apparatus" />
+            <figcaption>Company 5 pride on display</figcaption>
+          </figure>
+
+          <figure class="gallery-card">
+            <img src="assets/images/image000003.jpeg" alt="Evening shot of apparatus with emergency lights on" />
+            <figcaption>Lights on at dusk</figcaption>
+          </figure>
+
+          <!-- Row 3 -->
+          <figure class="gallery-card">
+            <img src="assets/images/image000004.jpeg" alt="Volunteers talking with kids at the parade" />
+            <figcaption>Talking fire safety with kids</figcaption>
+          </figure>
+
+          <figure class="gallery-card">
+            <img src="assets/images/image000008.jpeg" alt="Parade crowd gathered near the SSVFD units" />
+            <figcaption>Community gathered around the rigs</figcaption>
+          </figure>
+
+          <figure class="gallery-card">
+            <img src="assets/images/image000000.jpeg" alt="Group photo of SSVFD volunteers after the parade" />
+            <figcaption>SSVFD crew after the parade</figcaption>
           </figure>
         </div>
       </section>
@@ -320,5 +412,149 @@
       </p>
     </footer>
   </div>
+
+  <script>
+  (function () {
+    const daysContainer = document.getElementById('weather-days');
+    const updatedEl = document.getElementById('weather-updated');
+    const newsList = document.getElementById('local-news-list');
+
+    // ---------- WEATHER (5-day, Fahrenheit) ----------
+    if (daysContainer) {
+      // Front Royal, VA
+      const latitude = 38.918;
+      const longitude = -78.194;
+
+      const url =
+        'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=' + latitude +
+        '&longitude=' + longitude +
+        '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
+        '&timezone=auto';
+
+      // Map Open-Meteo weather codes to simple icons + labels
+      function iconForCode(code) {
+        if (code === 0) return { icon: '☀️', label: 'Clear' };
+        if (code === 1 || code === 2) return { icon: '🌤️', label: 'Partly' };
+        if (code === 3) return { icon: '☁️', label: 'Cloudy' };
+        if (code >= 51 && code <= 67) return { icon: '🌦️', label: 'Drizzle' };
+        if (code >= 71 && code <= 77) return { icon: '🌨️', label: 'Snow' };
+        if (code >= 80 && code <= 82) return { icon: '🌧️', label: 'Showers' };
+        if (code >= 95) return { icon: '⛈️', label: 'Storm' };
+        return { icon: '🌡️', label: 'Mixed' };
+      }
+
+      function dayLabel(dateStr, index) {
+        const d = new Date(dateStr + 'T12:00:00');
+        const options = { weekday: 'short' };
+        const name = d.toLocaleDateString(undefined, options);
+        return index === 0 ? 'Today' : name;
+      }
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          if (!data || !data.daily) {
+            throw new Error('No daily data');
+          }
+
+          const d = data.daily;
+          const count = Math.min(5, d.time.length);
+
+          daysContainer.innerHTML = '';
+
+          for (let i = 0; i < count; i++) {
+            const code = d.weathercode[i];
+
+            // Convert °C → °F
+            const hiF = Math.round((d.temperature_2m_max[i] * 9) / 5 + 32);
+            const loF = Math.round((d.temperature_2m_min[i] * 9) / 5 + 32);
+
+            const { icon, label } = iconForCode(code);
+
+            const card = document.createElement('div');
+            card.className = 'weather-day';
+            card.innerHTML = `
+              <div class="w-day-label">${dayLabel(d.time[i], i)}</div>
+              <span class="w-icon" title="${label}">${icon}</span>
+              <div class="w-temp">
+                <span>${hiF}° / ${loF}°</span>
+              </div>
+            `;
+
+            daysContainer.appendChild(card);
+          }
+
+          if (updatedEl) {
+            updatedEl.textContent =
+              'Updated ' +
+              new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+          }
+        })
+        .catch(err => {
+          console.error('Weather error:', err);
+          daysContainer.innerHTML =
+            '<div style="font-size:0.78rem; color:var(--text-muted);">Weather unavailable</div>';
+        });
+    }
+
+    // ---------- LOCAL NEWS (Royal Examiner RSS) ----------
+    function fetchLocalNews() {
+      if (!newsList) return;
+
+      // Royal Examiner RSS feed
+      const rssUrl = 'https://royalexaminer.com/feed/';
+
+      // Use a simple public CORS proxy for this prototype.
+      // For production, you'd use your own small proxy or serverless function.
+      const proxiedUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl);
+
+      fetch(proxiedUrl)
+        .then(res => res.text())
+        .then(str => {
+          const parser = new DOMParser();
+          const xml = parser.parseFromString(str, 'application/xml');
+          const items = Array.from(xml.querySelectorAll('item')).slice(0, 3);
+
+          if (!items.length) {
+            throw new Error('No items in RSS feed');
+          }
+
+          newsList.innerHTML = '';
+
+          items.forEach(item => {
+            const titleNode = item.querySelector('title');
+            const linkNode = item.querySelector('link');
+            const dateNode = item.querySelector('pubDate');
+
+            const title = titleNode ? titleNode.textContent.trim() : 'Untitled';
+            const link = linkNode ? linkNode.textContent.trim() : '#';
+            const date = dateNode ? new Date(dateNode.textContent) : null;
+
+            const li = document.createElement('li');
+            li.innerHTML = `
+              <a href="${link}" target="_blank" rel="noopener">
+                <span class="news-headline">${title}</span>
+                ${date ? `<span class="news-date">${date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>` : ''}
+              </a>
+            `;
+            newsList.appendChild(li);
+          });
+        })
+        .catch(err => {
+          console.error('News error:', err);
+          newsList.innerHTML = `
+            <li>
+              <a href="https://royalexaminer.com/" target="_blank" rel="noopener">
+                View local news on Royal Examiner
+              </a>
+            </li>
+          `;
+        });
+    }
+
+    fetchLocalNews();
+  })();
+</script>
 </body>
 </html>

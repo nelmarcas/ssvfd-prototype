@@ -23,6 +23,7 @@
 
 body {
   margin: 0;
+  padding-top: 40px;  /* makes room for the fixed alert bar */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background:
     radial-gradient(circle at top left, #361623 0, #050308 55%),
@@ -43,6 +44,12 @@ a:hover {
 
 /* Top alert strip */
 .top-alert {
+  position: fixed;          /* stay at top even when scrolling */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;            /* make sure it sits above everything else */
+
   background: linear-gradient(90deg, #b71c1c, #e65100);
   color: #fff;
   font-size: 0.9rem;
@@ -50,6 +57,7 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .top-alert-dot {
@@ -199,6 +207,7 @@ a:hover {
   margin-bottom: 18px;
 }
 
+/* Hero buttons */
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -252,8 +261,6 @@ a:hover {
 }
 
 /* Hero image / stats */
-
-
 .hero-image {
   display: flex;
   flex-direction: column;
@@ -296,16 +303,14 @@ a:hover {
 .hero-image-photo {
   border-radius: 18px;
   height: 190px;
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: var(--shadow-soft);
   position: relative;
   overflow: hidden;
   background:
-    linear-gradient(135deg, rgba(0,0,0,0.45), rgba(0,0,0,0.92)),
+    linear-gradient(135deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.92)),
     url("assets/images/fire-engine.jpg") center/cover no-repeat;
 }
-
-
 
 .hero-badge {
   position: absolute;
@@ -341,30 +346,24 @@ a:hover {
   color: var(--text-muted);
 }
 
-/* Hero badge with gold glow */
-
 /* Make sure hero image area doesn't clip the glow */
 .hero-image,
 .hero-image-photo {
   overflow: visible;
 }
 
-
 /* Hero badge with stronger gold glow */
 .hero-badge-logo {
   display: block;
-  max-width: 180px;        /* adjust if you want it larger/smaller */
+  max-width: 180px;
   height: auto;
   margin-bottom: 18px;
-
   position: relative;
   z-index: 2;
-
   filter:
-    drop-shadow(0 0 14px rgba(0, 0, 0, 0.6))              /* dark depth */
-    drop-shadow(0 0 20px rgba(255, 210, 120, 0.55))       /* main gold glow */
-    drop-shadow(0 0 40px rgba(255, 230, 160, 0.4));       /* soft outer halo */
-
+    drop-shadow(0 0 14px rgba(0, 0, 0, 0.6))
+    drop-shadow(0 0 20px rgba(255, 210, 120, 0.55))
+    drop-shadow(0 0 40px rgba(255, 230, 160, 0.4));
   transition: transform 0.25s ease, filter 0.25s ease;
 }
 
@@ -376,8 +375,69 @@ a:hover {
     drop-shadow(0 0 48px rgba(255, 235, 170, 0.5));
 }
 
+/* Weather widget inside hero right column */
+.hero-right-weather {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
 
+.weather-widget {
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 16px;
+  border: 1px solid var(--border-subtle);
+  padding: 10px 12px;
+  min-width: 260px;
+  max-width: 340px;
+  color: var(--text-main);
+  box-shadow: var(--shadow-soft);
+}
 
+.weather-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.weather-days {
+  display: flex;
+  gap: 8px;
+}
+
+.weather-day {
+  flex: 1;
+  background: rgba(11, 5, 18, 0.95);
+  border-radius: 12px;
+  padding: 6px 5px;
+  text-align: center;
+  font-size: 0.78rem;
+}
+
+.weather-day .w-day-label {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.weather-day .w-icon {
+  font-size: 1.3rem;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.weather-day .w-temp {
+  font-weight: 600;
+}
+
+.weather-day .w-temp span {
+  display: block;
+}
 
 /* Blocks / sections */
 .block {
@@ -464,6 +524,133 @@ a:hover {
   margin-bottom: 6px;
 }
 
+/* Text-based weather card (if you still use it elsewhere) */
+.weather-card {
+  background: rgba(11, 5, 18, 0.95);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  padding: 12px 12px 14px;
+  font-size: 0.9rem;
+}
+
+/* Local news widget under weather */
+.news-widget {
+  background: rgba(11, 5, 18, 0.95);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  padding: 10px 12px 12px;
+  font-size: 0.8rem;
+  width: 100%;
+  max-width: 340px;
+  box-shadow: var(--shadow-soft);
+}
+
+.news-widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.news-source {
+  font-weight: 600;
+  color: var(--accent-amber);
+}
+
+.news-widget-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.news-widget-list li {
+  margin: 4px 0;
+}
+
+.news-widget-list li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 0.78rem;
+}
+
+.news-widget-list li a:hover .news-headline {
+  text-decoration: underline;
+  color: var(--accent-blue);
+}
+
+/* Extra local news links under the headlines widget */
+.news-widget-links {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.news-widget-links .links-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.news-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.news-link-list li a {
+  font-size: 0.84rem;
+  color: var(--accent-amber);
+  text-decoration: none;
+}
+
+.news-link-list li a:hover {
+  color: var(--accent-red-soft);
+  text-decoration: underline;
+}
+
+.news-headline {
+  flex: 1;
+}
+
+.news-date {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.news-widget-list .loading {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}
+
+.weather-status {
+  margin: 0 0 6px;
+  color: var(--text-muted);
+}
+
+.weather-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
+.weather-details span {
+  color: var(--text-main);
+}
+
 /* News header */
 .block-header {
   display: flex;
@@ -512,42 +699,7 @@ a:hover {
   margin-bottom: 4px;
 }
 
-/* Responsiveness */
-@media (max-width: 960px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .block-split {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .grid-3 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 720px) {
-  .site-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .main-nav {
-    justify-content: flex-start;
-  }
-
-  .grid-2,
-  .grid-3 {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .top-alert {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-}
+/* Gallery */
 .gallery-grid img {
   width: 100%;
   display: block;
@@ -633,7 +785,7 @@ a:hover {
   padding: 12px;
   border-radius: 6px;
   border: 1px solid var(--border-subtle);
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text-main);
 }
 
@@ -651,4 +803,49 @@ a:hover {
 
 .contact-submit:hover {
   background: var(--accent-red-soft);
+}
+
+/* Responsiveness */
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .block-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .main-nav {
+    justify-content: flex-start;
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .top-alert {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .weather-widget {
+    width: 100%;
+    max-width: none;
+  }
+
+  .weather-days {
+    justify-content: space-between;
+  }
 }
